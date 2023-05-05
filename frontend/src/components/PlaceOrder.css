@@ -1,0 +1,61 @@
+.place-order-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .place-order-heading {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .place-order-container label {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .place-order-container select,
+  .place-order-container input {
+    font-size: 16px;
+    padding: 5px;
+    margin-left: 10px;
+  }
+  
+  .place-order-container select {
+    min-width: 200px;
+  }
+  
+  .place-order-container input[type='number'] {
+    width: 100px;
+  }
+  
+  .place-order-button {
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  
+  .place-order-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .error-message {
+    background-color: #ff6f6f;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  
