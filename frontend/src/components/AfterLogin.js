@@ -8,7 +8,7 @@ const AfterLogin = ({ email }) => {
   const [showOrderHistory, setShowOrderHistory] = useState(false);
   const onPlaceOrder = () => {
     setShowSelectService(true);
-    displayOrderHistory()
+   // displayOrderHistory()
   };
 
   const displayOrderHistory = () => {

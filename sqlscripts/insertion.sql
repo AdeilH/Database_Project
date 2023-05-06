@@ -6,6 +6,24 @@ VALUES
 ('bobsmith@example.com', 'password3', 'Bob', 'Smith'),
 ('alicesmith@example.com', 'password4', 'Alice', 'Smith');
 
+-- Insert mock data for addresses
+INSERT INTO `HomeServices`.`Addresses` (`customer_id`, `line1`, `line2`, `city`, `state`, `zip_code`, `phone`) 
+VALUES 
+(1, '123 Main St', '', 'Anytown', 'CA', '12345', '555-1234'),
+(1, '456 Elm St', '', 'Othertown', 'CA', '54321', '555-4321'),
+(2, '789 Oak St', '', 'Somewhere', 'CA', '67890', '555-6789'),
+(3, '2468 Maple St', '', 'Nowhere', 'CA', '86420', '555-2468'),
+(3, '13579 Cherry St', '', 'Everywhere', 'CA', '12346', '555-1357'),
+(4, '86420 Pine St', '', 'Noplace', 'CA', '98765', '555-8642');
+
+-- Update customers with address id
+UPDATE `HomeServices`.`Customers`
+SET `address_id` = (
+  SELECT `address_id` FROM `HomeServices`.`Addresses` WHERE `Addresses`.`customer_id` = `Customers`.`customer_id` LIMIT 1
+)
+WHERE `Customers`.`customer_id` IN (1, 2, 3, 4);
+
+
 -- Insert services into the table
 INSERT INTO `HomeServices`.`Services` (`service`)
 VALUES 

@@ -10,17 +10,21 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+type Address struct {
+	Line1   string `json:"line1"`
+	Line2   string `json:"line2"`
+	City    string `json:"city"`
+	State   string `json:"state"`
+	ZipCode string `json:"zipCode"`
+	Phone   string `json:"phone"`
+}
+
 type RegistrationForm struct {
-	Email        string `json:"email"`
-	Password     string `json:"password"`
-	FirstName    string `json:"firstName"`
-	LastName     string `json:"lastName"`
-	AddressLine1 string `json:"addressLine1"`
-	AddressLine2 string `json:"addressLine2"`
-	City         string `json:"city"`
-	State        string `json:"state"`
-	ZipCode      string `json:"zipCode"`
-	Phone        string `json:"phone"`
+	Email     string  `json:"email"`
+	Password  string  `json:"password"`
+	FirstName string  `json:"firstName"`
+	LastName  string  `json:"lastName"`
+	Address   Address `json:"address"`
 }
 
 type PaymentMethod struct {
@@ -103,7 +107,22 @@ func registerHandler(c *gin.Context) {
 
 	// insert into addresses table
 	addressInsertQuery := "INSERT INTO Addresses (customer_id, line1, line2, city, state, zip_code, phone) VALUES (?, ?, ?, ?, ?, ?, ?)"
-	_, err = db.Exec(addressInsertQuery, customerID, form.AddressLine1, form.AddressLine2, form.City, form.State, form.ZipCode, form.Phone)
+	_, err = db.Exec(addressInsertQuery, customerID, form.Address.Line1, form.Address.Line2, form.Address.City, form.Address.State, form.Address.ZipCode, form.Address.Phone)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	addressID, err := result.LastInsertId()
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	updateCustomerQuery := "UPDATE Customers SET address_id = ? where customer_id = ?"
+
+	_, err = db.Exec(updateCustomerQuery, addressID, customerID)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
